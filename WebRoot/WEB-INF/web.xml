@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" version="3.0">
+  <display-name></display-name>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>LoginServlet</servlet-name>
+    <servlet-class>com.customer.Servlet.LoginServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>register for customer</description>
+    <display-name>register</display-name>
+    <servlet-name>RegisterServlet</servlet-name>
+    <servlet-class>com.customer.Servlet.RegisterServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>login for restaurant</description>
+    <display-name>login</display-name>
+    <servlet-name>restLoginServlet</servlet-name>
+    <servlet-class>com.restaurant.Servlet.LoginServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>register for restaurant</description>
+    <display-name>register</display-name>
+    <servlet-name>restRegisterServlet</servlet-name>
+    <servlet-class>com.restaurant.Servlet.RegisterServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>注册餐厅</description>
+    <display-name>RestRegisterServlet</display-name>
+    <servlet-name>RestRegisterServlet</servlet-name>
+    <servlet-class>com.restaurant.Servlet.RestRegisterServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>AddDishServlet</servlet-name>
+    <servlet-class>com.restaurant.Servlet.AddDishServlet</servlet-class>
+  </servlet>
+
+
+
+
+  <servlet-mapping>
+    <servlet-name>LoginServlet</servlet-name>
+    <url-pattern>/servlet/customer/LoginServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>RegisterServlet</servlet-name>
+    <url-pattern>/servlet/customer/RegisterServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>restLoginServlet</servlet-name>
+    <url-pattern>/servlet/restaurant/LoginServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>restRegisterServlet</servlet-name>
+    <url-pattern>/servlet/restaurant/RegisterServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>RestRegisterServlet</servlet-name>
+    <url-pattern>/servlet/restaurant/RestRegisterServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>AddDishServlet</servlet-name>
+    <url-pattern>/servlet/restaurant/AddDishServlet</url-pattern>
+  </servlet-mapping>
+  <filter>
+   <filter-name>TransactionFilter</filter-name>
+   <filter-class>com.my.filter.TransactionFilter</filter-class>
+  </filter>
+  <filter-mapping>
+   <filter-name>TransactionFilter</filter-name>
+   <url-pattern>/*</url-pattern>
+  </filter-mapping>
+   <!--filter>
+   <filter-name>EncodingFilter</filter-name>
+   <filter-class>com.my.filter.EncodingFilter</filter-class>
+  </filter> 
+  <filter-mapping>
+   <filter-name>EncodingFilter</filter-name>
+   <url-pattern>/*</url-pattern>
+  </filter-mapping-->
+  
+  <filter>
+  <filter-name>SetCharacterEncoding</filter-name>
+  <filter-class>com.my.filter.SetCharacterEncodingFilter</filter-class>
+  <init-param>
+   <param-name>encoding</param-name>
+   <param-value>utf8</param-value>
+  </init-param>
+ </filter>
+ <filter-mapping>
+  <filter-name>SetCharacterEncoding</filter-name>
+  <url-pattern>/*</url-pattern>
+ </filter-mapping>
+  <welcome-file-list>
+    <welcome-file>index.jsp</welcome-file>
+  </welcome-file-list>
+</web-app>
