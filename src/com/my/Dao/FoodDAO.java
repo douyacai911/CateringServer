@@ -92,7 +92,11 @@ public class FoodDAO extends BaseHibernateDAO {
 			throw re;
 		}
 	}
-
+	//根据外键restid查找
+	public List findByRestaurant(Object restaurant) { 
+		return findByProperty("restaurant", restaurant); 
+		}
+	
 	public List findByName(Object name) {
 		return findByProperty(NAME, name);
 	}
