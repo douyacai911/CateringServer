@@ -3,6 +3,7 @@ package com.restaurant.Servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URLDecoder;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -17,6 +18,11 @@ import com.my.Entity.Food;
 import com.my.Entity.Restaurant;
 
 public class AddDishServlet extends HttpServlet {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -453071675661417108L;
 
 	/**
 	 * The doGet method of the servlet. <br>
@@ -49,6 +55,18 @@ public class AddDishServlet extends HttpServlet {
 		RestaurantDAO RestaurantDAO = new RestaurantDAO();
 		FoodDAO FoodDAO = new FoodDAO();
 		Restaurant restaurant = RestaurantDAO.findById(restid);
+		ArrayList<Food>foods = (ArrayList<Food>) FoodDAO.findByRestaurant(restaurant);
+		
+		if(foods.size()!=0 && foods!=null){
+			for(Food food:foods){
+				if(food.getName().equals(dishname)){
+					out.print("-1");
+					out.flush();
+					out.close();
+					return;
+				}
+			}}
+		
 		Food food = new Food();
 		food.setName(dishname);
 		food.setPrice(price);
@@ -65,6 +83,7 @@ public class AddDishServlet extends HttpServlet {
 		
 		out.flush();
 		out.close();
+		
 	}
 
 	/**

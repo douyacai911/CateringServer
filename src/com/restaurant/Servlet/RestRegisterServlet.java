@@ -70,7 +70,7 @@ public class RestRegisterServlet extends HttpServlet {
 			out.print(theRestid); //餐厅注册成功
 		}
 		else{
-			out.print("-1"); //此用户名已注册过
+			out.print("-1"); //此餐厅名已注册过
 		}
 		
 			

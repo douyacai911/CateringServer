@@ -53,6 +53,7 @@ public class MyMenuServlet extends HttpServlet {
 				jsonObj.put("index", i);
 				jsonObj.put("dishname", foods.get(i).getName());
 				jsonObj.put("price", foods.get(i).getPrice());
+				jsonObj.put("categoryid", foods.get(i).getCategoryid());
 				
 				jsonArray.put(jsonObj);
 				
