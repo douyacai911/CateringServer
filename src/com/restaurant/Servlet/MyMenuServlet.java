@@ -9,8 +9,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import util.HibernateSessionFactory;
 
 import com.my.Dao.FoodDAO;
 import com.my.Dao.RestaurantDAO;
@@ -18,6 +23,11 @@ import com.my.Entity.Food;
 import com.my.Entity.Restaurant;
 
 public class MyMenuServlet extends HttpServlet {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6678438518402887594L;
 
 	/**
 	 * The doGet method of the servlet. <br>
@@ -44,13 +54,18 @@ public class MyMenuServlet extends HttpServlet {
 		FoodDAO FoodDAO = new FoodDAO();
 		RestaurantDAO RestaurantDAO = new RestaurantDAO();
 		Restaurant restaurant = RestaurantDAO.findById(restid);
-		ArrayList<Food>foods = (ArrayList<Food>) FoodDAO.findByRestaurant(restaurant);
+		
+		Criteria cr = HibernateSessionFactory.getSession().createCriteria(Food.class);
+		cr.add(Restrictions.like("restaurant", restaurant));
+		cr.addOrder(Order.asc("categoryid"));
+		ArrayList<Food>foods =(ArrayList<Food>)cr.list();
+		
 		if(foods!=null && foods.size()!=0){
 			for(int i = 0;i < foods.size(); i ++){
 				
 				JSONObject jsonObj  = new JSONObject();
 				
-				jsonObj.put("index", i);
+//				jsonObj.put("index", i);
 				jsonObj.put("dishname", foods.get(i).getName());
 				jsonObj.put("price", foods.get(i).getPrice());
 				jsonObj.put("categoryid", foods.get(i).getCategoryid());
