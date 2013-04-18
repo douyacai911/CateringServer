@@ -56,7 +56,7 @@ public class MyMenuServlet extends HttpServlet {
 		Restaurant restaurant = RestaurantDAO.findById(restid);
 		
 		Criteria cr = HibernateSessionFactory.getSession().createCriteria(Food.class);
-		cr.add(Restrictions.like("restaurant", restaurant));
+		cr.add(Restrictions.eq("restaurant", restaurant));//TODO .like改成.eq，有时间测试一下
 		cr.addOrder(Order.asc("categoryid"));
 		ArrayList<Food>foods =(ArrayList<Food>)cr.list();
 		
@@ -66,6 +66,7 @@ public class MyMenuServlet extends HttpServlet {
 				JSONObject jsonObj  = new JSONObject();
 				
 //				jsonObj.put("index", i);
+				jsonObj.put("foodid", foods.get(i).getFoodid());
 				jsonObj.put("dishname", foods.get(i).getName());
 				jsonObj.put("price", foods.get(i).getPrice());
 				jsonObj.put("categoryid", foods.get(i).getCategoryid());

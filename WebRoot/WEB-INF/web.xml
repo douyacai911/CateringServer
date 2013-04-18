@@ -43,6 +43,13 @@
     <servlet-name>MyMenuServlet</servlet-name>
     <servlet-class>com.restaurant.Servlet.MyMenuServlet</servlet-class>
   </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>RestListServlet</servlet-name>
+    <servlet-class>com.customer.Servlet.RestListServlet</servlet-class>
+  </servlet>
+
 
 
 
@@ -75,6 +82,10 @@
   <servlet-mapping>
     <servlet-name>MyMenuServlet</servlet-name>
     <url-pattern>/servlet/restaurant/MyMenuServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>RestListServlet</servlet-name>
+    <url-pattern>/servlet/customer/RestListServlet</url-pattern>
   </servlet-mapping>
   <filter>
    <filter-name>TransactionFilter</filter-name>
