@@ -28,6 +28,10 @@ import com.my.Entity.Food;
 import com.my.Entity.Restaurant;
 
 public class RestListServlet extends HttpServlet {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4903387446311944386L;
 	double cuslat = 0;
 	double cuslon = 0;
 	/**
@@ -78,6 +82,7 @@ public class RestListServlet extends HttpServlet {
 				map.put("distance", distance);
 				map.put("restname", restaurant.getRestname());
 				map.put("restid", restaurant.getRestid());
+				map.put("delivery", restaurant.getDelivery());
 				wanttosort.add(map);
 				
 				
@@ -97,6 +102,7 @@ public class RestListServlet extends HttpServlet {
 	        	jsonObj.put("distance",wanttosort.get(i).get("distance"));
 				jsonObj.put("restname",wanttosort.get(i).get("restname"));
 				jsonObj.put("restid",wanttosort.get(i).get("restid"));
+				jsonObj.put("delivery",wanttosort.get(i).get("delivery"));
 				
 				
 				jsonArray.put(jsonObj);
