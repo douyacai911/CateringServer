@@ -8,7 +8,7 @@
     <class name="com.my.Entity.Comment" table="comment" catalog="catering">
         <id name="commentid" type="java.lang.Integer">
             <column name="commentid" />
-            <generator class="increment" />
+            <generator class="native" />
         </id>
         <many-to-one name="food" class="com.my.Entity.Food" fetch="select">
             <column name="foodid" not-null="true" />

@@ -8,7 +8,7 @@
     <class name="com.my.Entity.Restaurant" table="restaurant" catalog="catering">
         <id name="restid" type="java.lang.Integer">
             <column name="restid" />
-            <generator class="increment" />
+            <generator class="native" />
         </id>
         <property name="username" type="java.lang.String">
             <column name="username" length="65535" not-null="true" />
