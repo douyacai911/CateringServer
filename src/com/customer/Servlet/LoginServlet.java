@@ -67,10 +67,10 @@ public class LoginServlet extends HttpServlet {
 		out.close();
 	}
 	private String build(Customer u){
-		String userMsg = "";
-		userMsg+="customerid="+u.getCustomerid();
-		userMsg+=";";
-		userMsg+="name="+u.getUsername();
+		JSONObject json =new JSONObject();
+		json.put("customerid", u.getCustomerid());
+		json.put("username", u.getUsername());
+		String userMsg = json.toString();
 		return userMsg;
 	}
 	/**

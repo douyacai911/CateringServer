@@ -83,6 +83,9 @@ public class RestListServlet extends HttpServlet {
 				map.put("restname", restaurant.getRestname());
 				map.put("restid", restaurant.getRestid());
 				map.put("delivery", restaurant.getDelivery());
+				map.put("address", restaurant.getAddress());
+				map.put("location", restaurant.getLocation());
+				map.put("tel", restaurant.getTel());
 				wanttosort.add(map);
 				
 				
@@ -103,7 +106,9 @@ public class RestListServlet extends HttpServlet {
 				jsonObj.put("restname",wanttosort.get(i).get("restname"));
 				jsonObj.put("restid",wanttosort.get(i).get("restid"));
 				jsonObj.put("delivery",wanttosort.get(i).get("delivery"));
-				
+				jsonObj.put("address",wanttosort.get(i).get("address"));
+				jsonObj.put("location",wanttosort.get(i).get("location"));
+				jsonObj.put("tel",wanttosort.get(i).get("tel"));
 				
 				jsonArray.put(jsonObj);
 	        	
