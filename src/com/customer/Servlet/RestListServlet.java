@@ -70,6 +70,9 @@ public class RestListServlet extends HttpServlet {
 			return;
 			}
 			for(Restaurant restaurant:restaurants){
+				if(restaurant.getRestname()==null){
+					continue;
+				}
 				String restLocation = restaurant.getLocation();
 				if(restLocation==null){
 					restLocation = "0,0";

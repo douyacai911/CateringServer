@@ -62,7 +62,9 @@ public class CreateOrderServlet extends HttpServlet {
 		JSONArray orderjsonarray = json.getJSONArray("orderjsonarray");
 
 		String remark = "";
+		String cusaddress = "";
 		boolean remarkFlag = false;
+		boolean cusaddressFlag = false;
 		double total = json.getDouble("total");
 		int customerid = json.getInt("customerid");
 		int restid = json.getInt("restid");
@@ -75,6 +77,10 @@ public class CreateOrderServlet extends HttpServlet {
 			remark = json.getString("remark");
 			remarkFlag = true;
 		}
+		if(json.has("cusaddress")){
+			cusaddress = json.getString("cusaddress");
+			cusaddressFlag = true;
+		}
 		try{
 			
 		
@@ -85,18 +91,20 @@ public class CreateOrderServlet extends HttpServlet {
 		RestaurantDAO restaurantDAO = new RestaurantDAO();
 		Restaurant restaurant = restaurantDAO.findById(restid);
 		Order order = new Order();
-//		order.setTotal(total);
+		order.setTotal(total);
 		order.setCustomer(customer);
-//		order.setOrderid(2);
 		order.setRestaurant(restaurant);
 		order.setDelivery(delivery);
 		Timestamp make = Timestamp.valueOf(maketime);
 		order.setMaketime(make);
 		Timestamp eat = Timestamp.valueOf(eattime);
-//		order.setEattime(eat);
-//		order.setNumofpeople(numofpeo);
+		order.setEattime(eat);
+		order.setNumofpeople(numofpeo);
 		if (remarkFlag) {
-//			order.setRemarks(remark);
+			order.setRemarks(remark);
+		}
+		if(cusaddressFlag){
+			order.setAddress(cusaddress);
 		}
 		orderDAO.save(order); //´´½¨¶©µ¥
 
