@@ -2,6 +2,7 @@ package com.restaurant.Servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 
 import javax.servlet.ServletException;
@@ -9,25 +10,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.hibernate.Criteria;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Restrictions;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
-import util.HibernateSessionFactory;
-
 import com.my.Dao.FoodDAO;
-import com.my.Dao.RestaurantDAO;
 import com.my.Entity.Food;
 import com.my.Entity.Restaurant;
 
-public class MyMenuServlet extends HttpServlet {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 6678438518402887594L;
+public class EditDishServlet extends HttpServlet {
 
 	/**
 	 * The doGet method of the servlet. <br>
@@ -45,46 +34,48 @@ public class MyMenuServlet extends HttpServlet {
 		response.setContentType("text/html");
 		response.setCharacterEncoding("UTF-8"); 
 		PrintWriter out = response.getWriter();
-
-        JSONArray jsonArray = new JSONArray();
-
-		int restid = Integer.parseInt(request.getParameter("restid"));
-		System.out.println(restid+" want to search his menu");
 		
+		String json = URLDecoder.decode(request.getParameter("param"),"utf-8");
+        
+        JSONObject object =new JSONObject(json);
+
+
+		int foodid = object.getInt("foodid");
+		String dishname = object.getString("dishname");
+		double price = object.getDouble("price");
+		String description = object.getString("description");
+		int categoryid = object.getInt("categoryid");
+		System.out.println(foodid+" need to be edited"+dishname+price+description+categoryid);
 		FoodDAO FoodDAO = new FoodDAO();
-		RestaurantDAO RestaurantDAO = new RestaurantDAO();
-		Restaurant restaurant = RestaurantDAO.findById(restid);
+		Food food = new Food();
+		food = FoodDAO.findById(foodid);
+		Restaurant restaurant = new Restaurant();
+		restaurant = food.getRestaurant();
+		ArrayList<Food>foods = (ArrayList<Food>) FoodDAO.findByRestaurant(restaurant);
+		for(Food thefood:foods){
+			if(thefood.getName().equals(dishname) && (thefood.getFoodid()!=foodid)){
+				out.print("-1");
+				out.flush();
+				out.close();
+				return;
+			}
+		}
 		
-		Criteria cr = HibernateSessionFactory.getSession().createCriteria(Food.class);
-		cr.add(Restrictions.eq("restaurant", restaurant));//TODO .like改成.eq，有时间测试一下
-		cr.addOrder(Order.asc("categoryid"));
-		ArrayList<Food>foods =(ArrayList<Food>)cr.list();
 		
-		if(foods!=null && foods.size()!=0){
-			for(int i = 0;i < foods.size(); i ++){
-				
-				JSONObject jsonObj  = new JSONObject();
-				
-//				jsonObj.put("index", i);
-				jsonObj.put("foodid", foods.get(i).getFoodid());
-				jsonObj.put("dishname", foods.get(i).getName());
-				jsonObj.put("price", foods.get(i).getPrice());
-				jsonObj.put("categoryid", foods.get(i).getCategoryid());
-				jsonObj.put("description", foods.get(i).getDescription());
-				
-				jsonArray.put(jsonObj);
-				
-				}
-		JSONObject json = new JSONObject();
-		json.put("menu", jsonArray);
-		out.print(json.toString());
+		food.setName(dishname);
+		food.setPrice(price);
+		food.setDescription(description);
+		food.setCategoryid(categoryid);
+		FoodDAO.save(food);
+		out.print(food.getFoodid());
+		
+		
+		
+		
+		
 		out.flush();
 		out.close();
-	} else { //此店没有发布过菜品
-		out.print("-1");
-		out.flush();
-		out.close();
-	}}
+	}
 
 	/**
 	 * The doPost method of the servlet. <br>
