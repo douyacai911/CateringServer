@@ -47,6 +47,7 @@ public class RegisterServlet extends HttpServlet {
 		String username = object.getString("username");
 		String password = object.getString("password");
 		String email = object.getString("email");
+		String tel = object.getString("tel");
 		
 		System.out.println(username+" want to register");
 		CustomerDAO customerDAO = new CustomerDAO();
@@ -54,6 +55,7 @@ public class RegisterServlet extends HttpServlet {
 		customer.setUsername(username);
 		customer.setPassword(password);
 		customer.setEmail(email);
+		customer.setTel(tel);
 		ArrayList<Customer>customers = (ArrayList<Customer>) customerDAO.findByUsername(username);
 		if(customers.size()==0){
 			customerDAO.save(customer);

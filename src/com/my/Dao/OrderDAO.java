@@ -93,7 +93,11 @@ public class OrderDAO extends BaseHibernateDAO {
 			throw re;
 		}
 	}
-
+	//根据外键restid查找
+	public List findByRestaurant(Object restaurant) { 
+		return findByProperty("restaurant", restaurant); 
+		}
+	
 	public List findByTotal(Object total) {
 		return findByProperty(TOTAL, total);
 	}

@@ -71,7 +71,6 @@ public class CreateOrderServlet extends HttpServlet {
 		boolean delivery = json.getBoolean("delivery");
 		String maketime = json.getString("maketime");
 		String eattime = json.getString("eattime");
-		String numofpeo = json.getString("numofpeo");
 		System.out.println("#########"+maketime+"#########"+eattime);
 		if (json.has("remark")) {
 			remark = json.getString("remark");
@@ -99,7 +98,6 @@ public class CreateOrderServlet extends HttpServlet {
 		order.setMaketime(make);
 		Timestamp eat = Timestamp.valueOf(eattime);
 		order.setEattime(eat);
-		order.setNumofpeople(numofpeo);
 		if (remarkFlag) {
 			order.setRemarks(remark);
 		}
