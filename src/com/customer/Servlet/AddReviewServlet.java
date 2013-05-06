@@ -2,8 +2,8 @@ package com.customer.Servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.net.URLDecoder;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import javax.servlet.ServletException;
@@ -12,9 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.hibernate.Criteria;
-import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import util.HibernateSessionFactory;
@@ -23,14 +21,13 @@ import com.my.Dao.CommentDAO;
 import com.my.Dao.CustomerDAO;
 import com.my.Dao.FoodDAO;
 import com.my.Entity.Comment;
-import com.my.Entity.Food;
 
-public class GetDishServlet extends HttpServlet {
+public class AddReviewServlet extends HttpServlet {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 6384115638513490593L;
+	private static final long serialVersionUID = -3726438282769854462L;
 
 	/**
 	 * The doGet method of the servlet. <br>
@@ -49,64 +46,47 @@ public class GetDishServlet extends HttpServlet {
 		response.setCharacterEncoding("UTF-8"); 
 		PrintWriter out = response.getWriter();
 		
-		int foodid = Integer.parseInt(request.getParameter("foodid"));
-
-		JSONObject json = new JSONObject();
-		JSONArray jsonArray = new JSONArray();
-//		new CustomerDAO();
-		//获得food数据
-		FoodDAO FoodDAO = new FoodDAO();
-		Food food = FoodDAO.findById(foodid);
-		String dishname = food.getName();
-		double price = food.getPrice();
-		int category = food.getCategoryid();
-		String description = food.getDescription();
-		
-		json.put("dishname", dishname);
-		json.put("price", price);
-		json.put("category", category);
-		json.put("description", description);
-		
-//		
-//		new CommentDAO();
-		Criteria cr = HibernateSessionFactory.getSession().createCriteria(Comment.class);
-		cr.add(Restrictions.eq("food", food));//TODO .like改成.eq，有时间测试一下
-		cr.addOrder(Order.asc("time"));
+		String json = URLDecoder.decode(request.getParameter("param"),"utf-8");
+        
+        JSONObject object =new JSONObject(json);
+        
+        CommentDAO commentDAO = new CommentDAO();
+        Comment comment = new Comment();
+        CustomerDAO customerDAO = new CustomerDAO();
+        FoodDAO foodDAO = new FoodDAO();
+        Criteria cr = HibernateSessionFactory.getSession().createCriteria(Comment.class);
+		cr.add(Restrictions.eq("customer", customerDAO.findById(object.getInt("customerid"))));
 		ArrayList<Comment>comments =(ArrayList<Comment>)cr.list();
-//		double stars = 0;
 		if(comments!=null && comments.size()!=0){
-			json.put("havecomment", true);
 			for(int i = 0;i < comments.size(); i ++){
-				
-				JSONObject jsonObj  = new JSONObject();
-				
-				jsonObj.put("customername",comments.get(i).getCustomer().getUsername()); //评论人
-				DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); //去掉.0 格式化
-				jsonObj.put("time",df.format(comments.get(i).getTime()).toString());
-				jsonObj.put("detail",comments.get(i).getDetail());
-				if(comments.get(i).getStars()==null){
-					jsonObj.put("stars", 0);
-				}else{
-
-					jsonObj.put("stars",comments.get(i).getStars());
+				if(comments.get(i).getFood().equals(foodDAO.findById(object.getInt("foodid")))){
+					out.print("2");
+					out.flush();
+					out.close();
+					return;
 				}
-//				stars+=thisStar;
-				
-				jsonArray.put(jsonObj);
-				
 			}
-//			int star =(int) (stars/comments.size());
-//			json.put("star", star);
-			json.put("comment", jsonArray);
 		}
-		else {
-			json.put("havecomment", false);
-		}
-
-		out.print(json.toString());
-		
+        try{
+        if(object.has("star")){
+        	comment.setStars(object.getDouble("star"));
+        	
+        }
+        comment.setCustomer(customerDAO.findById(object.getInt("customerid")));
+        comment.setRestaurant(foodDAO.findById(object.getInt("foodid")).getRestaurant());
+        Timestamp make = Timestamp.valueOf(object.getString("time"));
+        comment.setTime(make);
+        comment.setDetail(object.getString("review"));
+		comment.setFood(foodDAO.findById(object.getInt("foodid")));
+		commentDAO.save(comment);
+		out.print("1");
+        }catch(Exception e){
+        	out.print("0");
+        	e.printStackTrace();
+        }
 		out.flush();
 		out.close();
+		
 	}
 
 	/**

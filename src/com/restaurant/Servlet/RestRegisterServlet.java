@@ -56,7 +56,7 @@ public class RestRegisterServlet extends HttpServlet {
 			isdelivery = true;
 		}
 		RestaurantDAO RestaurantDAO = new RestaurantDAO();
-		ArrayList<Restaurant>restaurants = (ArrayList<Restaurant>) RestaurantDAO.findByUsername(restname);
+		ArrayList<Restaurant>restaurants = (ArrayList<Restaurant>) RestaurantDAO.findByRestname(restname);
 		if(restaurants.size()==0 ){
 			Restaurant restaurant = RestaurantDAO.findById(restid);
 			restaurant.setRestname(restname);

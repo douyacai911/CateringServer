@@ -109,6 +109,20 @@
     <servlet-name>MyOrderDetailServlet</servlet-name>
     <servlet-class>com.customer.Servlet.MyOrderDetailServlet</servlet-class>
   </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>AddReviewServlet</servlet-name>
+    <servlet-class>com.customer.Servlet.AddReviewServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>GetReviewServlet</servlet-name>
+    <servlet-class>com.restaurant.Servlet.GetReviewServlet</servlet-class>
+  </servlet>
+
+
 
 
 
@@ -197,6 +211,14 @@
   <servlet-mapping>
     <servlet-name>MyOrderDetailServlet</servlet-name>
     <url-pattern>/servlet/customer/MyOrderDetailServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>AddReviewServlet</servlet-name>
+    <url-pattern>/servlet/customer/AddReviewServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>GetReviewServlet</servlet-name>
+    <url-pattern>/servlet/restaurant/GetReviewServlet</url-pattern>
   </servlet-mapping>
   <filter>
    <filter-name>TransactionFilter</filter-name>

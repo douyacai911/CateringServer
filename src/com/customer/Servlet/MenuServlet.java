@@ -17,12 +17,16 @@ import org.json.JSONObject;
 
 import util.HibernateSessionFactory;
 
-import com.my.Dao.FoodDAO;
 import com.my.Dao.RestaurantDAO;
 import com.my.Entity.Food;
 import com.my.Entity.Restaurant;
 
 public class MenuServlet extends HttpServlet {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5310012071625414335L;
 
 	/**
 	 * The doGet method of the servlet. <br>
@@ -46,7 +50,6 @@ public class MenuServlet extends HttpServlet {
 		int restid = Integer.parseInt(request.getParameter("restid"));
 		System.out.println("search "+restid+" 's menu");
 		
-		FoodDAO FoodDAO = new FoodDAO();
 		RestaurantDAO RestaurantDAO = new RestaurantDAO();
 		Restaurant restaurant = RestaurantDAO.findById(restid);
 		
