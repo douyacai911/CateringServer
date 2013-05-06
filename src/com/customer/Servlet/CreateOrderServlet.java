@@ -63,8 +63,10 @@ public class CreateOrderServlet extends HttpServlet {
 
 		String remark = "";
 		String cusaddress = "";
+		String numofpeo = "";
 		boolean remarkFlag = false;
 		boolean cusaddressFlag = false;
+		boolean numofpeoFlag = false;
 		double total = json.getDouble("total");
 		int customerid = json.getInt("customerid");
 		int restid = json.getInt("restid");
@@ -80,6 +82,10 @@ public class CreateOrderServlet extends HttpServlet {
 			cusaddress = json.getString("cusaddress");
 			cusaddressFlag = true;
 		}
+		if(json.has("numofpeo")){
+			numofpeo = json.getString("numofpeo");
+			numofpeoFlag = true;
+		}
 		try{
 			
 		
@@ -94,6 +100,7 @@ public class CreateOrderServlet extends HttpServlet {
 		order.setCustomer(customer);
 		order.setRestaurant(restaurant);
 		order.setDelivery(delivery);
+		order.setCompleteflag(false);
 		Timestamp make = Timestamp.valueOf(maketime);
 		order.setMaketime(make);
 		Timestamp eat = Timestamp.valueOf(eattime);
@@ -103,6 +110,9 @@ public class CreateOrderServlet extends HttpServlet {
 		}
 		if(cusaddressFlag){
 			order.setAddress(cusaddress);
+		}
+		if(numofpeoFlag){
+			order.setNumofpeople(numofpeo);
 		}
 		orderDAO.save(order); //´´½¨¶©µ¥
 

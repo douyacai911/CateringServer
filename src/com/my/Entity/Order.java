@@ -18,7 +18,7 @@ public class Order implements java.io.Serializable {
 	private Double total;
 	private Boolean delivery;
 	private String address;
-	private String location;
+	private Boolean completeflag;
 	private Timestamp maketime;
 	private Timestamp eattime;
 	private String numofpeople;
@@ -32,27 +32,26 @@ public class Order implements java.io.Serializable {
 	}
 
 	/** minimal constructor */
-	public Order(Integer orderid, Customer customer, Restaurant restaurant,
-			Boolean delivery, Timestamp maketime) {
-		this.orderid = orderid;
+	public Order(Customer customer, Restaurant restaurant, Boolean delivery,
+			Boolean completeflag, Timestamp maketime) {
 		this.customer = customer;
 		this.restaurant = restaurant;
 		this.delivery = delivery;
+		this.completeflag = completeflag;
 		this.maketime = maketime;
 	}
 
 	/** full constructor */
-	public Order(Integer orderid, Customer customer, Restaurant restaurant,
-			Double total, Boolean delivery, String address, String location,
+	public Order(Customer customer, Restaurant restaurant, Double total,
+			Boolean delivery, String address, Boolean completeflag,
 			Timestamp maketime, Timestamp eattime, String numofpeople,
 			String remarks, Set orderdetails) {
-		this.orderid = orderid;
 		this.customer = customer;
 		this.restaurant = restaurant;
 		this.total = total;
 		this.delivery = delivery;
 		this.address = address;
-		this.location = location;
+		this.completeflag = completeflag;
 		this.maketime = maketime;
 		this.eattime = eattime;
 		this.numofpeople = numofpeople;
@@ -110,12 +109,12 @@ public class Order implements java.io.Serializable {
 		this.address = address;
 	}
 
-	public String getLocation() {
-		return this.location;
+	public Boolean getCompleteflag() {
+		return this.completeflag;
 	}
 
-	public void setLocation(String location) {
-		this.location = location;
+	public void setCompleteflag(Boolean completeflag) {
+		this.completeflag = completeflag;
 	}
 
 	public Timestamp getMaketime() {

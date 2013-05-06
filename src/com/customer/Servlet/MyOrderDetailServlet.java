@@ -1,4 +1,4 @@
-package com.restaurant.Servlet;
+package com.customer.Servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -19,12 +19,10 @@ import org.json.JSONObject;
 import util.HibernateSessionFactory;
 
 import com.my.Dao.OrderDAO;
-import com.my.Dao.RestaurantDAO;
-import com.my.Entity.Food;
 import com.my.Entity.Order;
-import com.my.Entity.Restaurant;
+import com.my.Entity.Orderdetail;
 
-public class OrderListServlet extends HttpServlet {
+public class MyOrderDetailServlet extends HttpServlet {
 
 	/**
 	 * The doGet method of the servlet. <br>
@@ -45,36 +43,50 @@ public class OrderListServlet extends HttpServlet {
 
         JSONArray jsonArray = new JSONArray();
 
-		int restid = Integer.parseInt(request.getParameter("restid"));
-		System.out.println(restid+" want to search his orderlist");
-//		
-//		OrderDAO orderDAO = new OrderDAO();
-		RestaurantDAO restaurantDAO = new RestaurantDAO();
-		Restaurant restaurant = restaurantDAO.findById(restid);
-//		ArrayList<Order>orders = (ArrayList<Order>) orderDAO.findByRestaurant(restaurant);
+		int orderid = Integer.parseInt(request.getParameter("orderid"));
+		System.out.println(orderid+" need to be searched");
 		
-		Criteria cr = HibernateSessionFactory.getSession().createCriteria(Order.class);
-		cr.add(Restrictions.eq("restaurant", restaurant));//TODO .like改成.eq，有时间测试一下
-
-		cr.addOrder(org.hibernate.criterion.Order.asc("maketime"));
-		ArrayList<Order>orders =(ArrayList<Order>)cr.list();
+		OrderDAO orderDAO = new OrderDAO();
+		Order order = orderDAO.findById(orderid);
+		Criteria cr = HibernateSessionFactory.getSession().createCriteria(Orderdetail.class);
+		cr.add(Restrictions.eq("order", order));//TODO .like改成.eq，有时间测试一下
+		ArrayList<Orderdetail>orderdetails =(ArrayList<Orderdetail>)cr.list();
 		
-		if(orders!=null && orders.size()!=0){
-			for(int i = 0;i < orders.size(); i ++){
+		if(orderdetails!=null && orderdetails.size()!=0){
+			for(int i = 0;i < orderdetails.size(); i ++){
 				
 				JSONObject jsonObj  = new JSONObject();
-				DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); //去掉.0 格式化
 				
-				jsonObj.put("orderid", orders.get(i).getOrderid());
-				jsonObj.put("delivery", orders.get(i).getDelivery());
-				jsonObj.put("eattime", df.format(orders.get(i).getEattime()).toString());
-				jsonObj.put("maketime", df.format(orders.get(i).getMaketime()).toString());
-				jsonObj.put("completeflag", orders.get(i).getCompleteflag());
+//				jsonObj.put("index", i);
+				jsonObj.put("foodid", orderdetails.get(i).getFood().getFoodid());
+				jsonObj.put("dishname", orderdetails.get(i).getFood().getName());
+				jsonObj.put("quantity", orderdetails.get(i).getQuantity().toString());
+				jsonObj.put("subtotal", orderdetails.get(i).getSubtotal().toString());
+				
 				jsonArray.put(jsonObj);
 				
 				}
 		JSONObject json = new JSONObject();
-		json.put("order", jsonArray);
+		boolean delivery = order.getDelivery();
+		if(delivery){
+			json.put("address",order.getAddress());
+		}else{
+			json.put("numofpeo", order.getNumofpeople());
+		}
+		json.put("orderdetailarray", jsonArray);
+		json.put("delivery", delivery);
+		
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); //去掉.0 格式化
+		
+		json.put("eattime", df.format(order.getEattime()).toString());
+		json.put("maketime", df.format(order.getMaketime()).toString());
+		json.put("total", order.getTotal().toString());
+		if((order.getRemarks()!=null) && (!order.getRemarks().equals(""))){
+			json.put("remark", order.getRemarks());
+		}
+
+		json.put("restname", order.getRestaurant().getRestname());
+		json.put("resttel", order.getRestaurant().getTel());
 		out.print(json.toString());
 		out.flush();
 		out.close();
@@ -82,7 +94,8 @@ public class OrderListServlet extends HttpServlet {
 		out.print("-1");
 		out.flush();
 		out.close();
-	}}
+	}
+	}
 
 	/**
 	 * The doPost method of the servlet. <br>

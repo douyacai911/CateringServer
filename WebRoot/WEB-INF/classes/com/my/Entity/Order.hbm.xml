@@ -25,8 +25,8 @@
         <property name="address" type="java.lang.String">
             <column name="address" length="65535" />
         </property>
-        <property name="location" type="java.lang.String">
-            <column name="location" length="65535" />
+        <property name="completeflag" type="java.lang.Boolean">
+            <column name="completeflag" not-null="true" />
         </property>
         <property name="maketime" type="java.sql.Timestamp">
             <column name="maketime" length="19" not-null="true" />

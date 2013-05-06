@@ -28,7 +28,7 @@ public class OrderDAO extends BaseHibernateDAO {
 	public static final String TOTAL = "total";
 	public static final String DELIVERY = "delivery";
 	public static final String ADDRESS = "address";
-	public static final String LOCATION = "location";
+	public static final String COMPLETEFLAG = "completeflag";
 	public static final String NUMOFPEOPLE = "numofpeople";
 	public static final String REMARKS = "remarks";
 
@@ -110,8 +110,8 @@ public class OrderDAO extends BaseHibernateDAO {
 		return findByProperty(ADDRESS, address);
 	}
 
-	public List findByLocation(Object location) {
-		return findByProperty(LOCATION, location);
+	public List findByCompleteflag(Object completeflag) {
+		return findByProperty(COMPLETEFLAG, completeflag);
 	}
 
 	public List findByNumofpeople(Object numofpeople) {
