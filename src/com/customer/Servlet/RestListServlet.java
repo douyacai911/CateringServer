@@ -29,7 +29,7 @@ import com.my.Entity.Restaurant;
 
 public class RestListServlet extends HttpServlet {
 	/**
-	 * 
+	 * æµ‹è¯•svn
 	 */
 	private static final long serialVersionUID = 4903387446311944386L;
 	double cuslat = 0;
@@ -98,7 +98,7 @@ public class RestListServlet extends HttpServlet {
 			wanttosort.add(map);
 
 		}
-		// °´¾àÀëÅÅÐò
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		Collections.sort(wanttosort, new Comparator<HashMap<String, Object>>() {
 			@Override
 			public int compare(HashMap<String, Object> r0, HashMap<String, Object> r1) {
