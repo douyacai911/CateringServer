@@ -1,3 +1,5 @@
 {
-  "response_cd": "00"
+  "User": {
+    "response_cd": { "string": {} }
+  }
 }
