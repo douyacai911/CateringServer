@@ -1,3 +1,7 @@
 {
-  "response_cd": "00"
+  {
+  "response_cd": {
+    "response_cd": { "string": {} }
+  }
+}
 }
